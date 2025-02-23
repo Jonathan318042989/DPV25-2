@@ -25,7 +25,7 @@ public class CharacterMovement : MonoBehaviour
         direccion.z = Input.GetAxisRaw("Vertical");
         
         //this.transform.position += direccion * velocidad* Time.deltaTime;
-        cc.Move(direccion*Time.deltaTime);
+        cc.Move(direccion*Time.deltaTime*velocidad);
     }
 
     public void setVelocity(float velocidad)

@@ -12,6 +12,9 @@ public class Movimiento : MonoBehaviour
     public float salto = 50f;
     public float velocidad = 5f;
     private float ver;
+    public Transform holder;
+    public GameObject zooka;
+    public GameObject bala;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,5 +59,19 @@ public class Movimiento : MonoBehaviour
         direccion -= new Vector3(0, gravedad * Time.deltaTime, 0);
         controlador.transform.Rotate(new Vector3(0, rotacion, 0));
         controlador.Move(direccion * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.C) && zooka.activeSelf)
+        {
+            Instantiate(bala, this.holder.position, holder.rotation);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "gun")
+        {
+            other.gameObject.SetActive(false);
+            this.zooka.SetActive(true);
+        }
     }
 }

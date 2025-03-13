@@ -13,6 +13,10 @@ public class MovimientoObjetivo : MonoBehaviour
     Vector2 vectorDireccion;   //  La direccion donde se mueve la sierra
     bool direccion; //  Valor que nos dice a que direccion debe moverse el objeto
     Coroutine coroutine;
+    Animator anim;
+    public GameObject cadena;
+    public GameObject sawPrefab;
+    public int numeroDeCadenas;
 
     private void Start()
     {
@@ -20,8 +24,9 @@ public class MovimientoObjetivo : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         posicionInicial = transform.position;
         vectorDireccion = posicionFinal - posicionInicial;
-
+        anim = gameObject.GetComponent<Animator>();
         //  Activar comportamiento
+        GeneraCadenas();
         Activar();
     }
 
@@ -38,6 +43,7 @@ public class MovimientoObjetivo : MonoBehaviour
 
     private void Activar()
     {
+        anim.SetBool("Off", false);
         coroutine ??= StartCoroutine(nameof(CambiarDireccion));
     }
 
@@ -47,6 +53,21 @@ public class MovimientoObjetivo : MonoBehaviour
         {
             StopCoroutine(coroutine);
             coroutine = null;
+            anim.SetBool("Off", true);
+        }
+    }
+
+    private void GeneraCadenas()
+    {
+        if (cadena == null || numeroDeCadenas <= 0) return;
+
+        for (int i = 0; i<numeroDeCadenas; i++)
+        {
+            float t = (float)i / (numeroDeCadenas-1);
+            Vector2 posicionCadena = Vector2.Lerp(posicionInicial, posicionFinal, t);
+            GameObject nuevaCadena = Instantiate(cadena, posicionCadena, Quaternion.identity);
+            nuevaCadena.transform.SetParent(sawPrefab.transform);
+            //nuevaCadena.transform.position = posicionCadena;
         }
     }
 }

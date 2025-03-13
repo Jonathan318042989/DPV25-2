@@ -7,6 +7,8 @@ TagManager:
   - Calabaza
   - Pelota
   - Gol
+  - gun
+  - bala
   layers:
   - Default
   - TransparentFX
